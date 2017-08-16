@@ -1,0 +1,14 @@
+{
+  "name": "servidor",
+  "version": "1.0.0",
+  "description": "laberinto",
+  "main": "maze.js",
+  "scripts": {
+  "start": "node maze.js"
+  },
+  "author": "manuela recio",
+  "license": "ISC",
+  "dependencies": {
+    "@mitchallen/maze-generator-square": "^0.1.12"
+  }
+}
