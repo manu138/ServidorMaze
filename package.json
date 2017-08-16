@@ -1,14 +1,23 @@
 {
-  "name": "servidor",
+  "name": "randommaze",
   "version": "1.0.0",
   "description": "laberinto",
   "main": "maze.js",
   "scripts": {
-  "start": "node maze.js"
+    "start": "node maze.js"
   },
   "author": "manuela recio",
   "license": "ISC",
   "dependencies": {
     "@mitchallen/maze-generator-square": "^0.1.12"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manu138/ServidorMaze.git"
+  },
+  "bugs": {
+    "url": "https://github.com/manu138/ServidorMaze/issues"
+  },
+  "homepage": "https://github.com/manu138/ServidorMaze#readme"
 }
