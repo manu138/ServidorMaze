@@ -1,48 +1,40 @@
 var maze = require('nylira-maze');
-var schedule = require('node-schedule');
-
-var laberinto = maze(40,40, 'growingtree:newest',0.45, undefined, false);
-var labString = renderMaze(laberinto);
-
-
+var moment = require('moment');
+var url = require('url');
+var today = moment().format("YYYY-MM-DD");
 var http = require('http');
-const today = require('dates-of-today');
-var dateToday=objToString(today());
-
 var fs=require('fs');
+var fechadehoy = today + '.txt';
+
+
 //create a server object:
-http.createServer(function (req, res) {
-  res.write(labString+dateToday ); //write a response to the client
+http.createServer(function (req, res) 
+{
+  var query = url.parse(req.url,true).query;
+  var ancho = query.ancho;
+  var alto = query.alto;
+  
+  fs.readFile(fechadehoy,function(err, contenido)
+  {
+    if(err || !contenido)
+    {
+      //generar string del laberinto
+      contenido = generarLaberinto(ancho,alto);
+      var archivoLaberinto = fs.createWriteStream(fechadehoy,{'flags':'a'});
+      archivoLaberinto.write(contenido);
+      contenido=contenido.toString();
+    }
+  
+  res.write(contenido); //write a response to the client
   res.end(); //end the response
+}); 
 }).listen(process.env.PORT || 8080); //the server object listens on port 8080
 
-
-
-var rule = new schedule.RecurrenceRule();
-rule.hour = 24;
- 
-var j = schedule.scheduleJob(rule, function(){
-  var laberinto = maze(getRandomInt(2,100), getRandomInt(2,100), 'growingtree:newest', getRandom(), undefined, false);
-});
-
-
-function objToString (obj) {
-    var str = '';
-    for (var p in obj) {
-        if (obj.hasOwnProperty(p)) {
-            str += p + '::' + obj[p] + '\n';
-        }
-    }
-    return str;
-}
-
-function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min)) + min;
-}
-
-// Retorna un número aleatorio entre 0 (incluido) y 1 (excluido)
-function getRandom() {
-  return Math.random();
+function generarLaberinto(ancho, alto) {
+  var laberinto = maze(ancho,alto, 'growingtree:newest',0.45, undefined, false);
+  var labString = renderMaze(laberinto);
+  return labString;
+  
 }
 
 function renderMaze(grid) {
